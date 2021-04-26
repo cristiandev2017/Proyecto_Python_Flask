@@ -1,0 +1,61 @@
+{% extends 'layout.html'%}
+
+{% block title %}
+Inicio
+{% endblock %}
+
+{% block content %}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="card">
+        <div class="card-header text-center">Sobre el Proyecto</div>
+        <div class="card-body">
+            <p>
+                Este proyecto tiene como objetivo realizar por medio de un lenguaje de programación calculos complejos.
+                Para la realización del mismo se utilizaron 2 metodos númericos el metodo de newton y el metodo de
+                bisección;
+                Se utilizo el lenguaje Python como lenguaje base y utilizamos Flask para las interfaces graficas.
+            </p>
+            <div class="row">
+                <div class="col">
+                    <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Metodo de Bisección</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                            src="{{ url_for('static', filename='img/metodo_biseccion.png') }}"alt="">
+                        </div>
+                        <p>En este metodo se piden 2 intervalos y la tolerancia para evaluar la aproximación mas adecuada y el resultado </p>
+                        <a href="{{ url_for('mbiseccion') }}">Ir a probarlo &rarr;</a>
+                    </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Metodo de Newton</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                            src="{{ url_for('static', filename='img/metodo_newton.png') }}"alt="">
+                        </div>
+                        <p>En este metodo se piden 1 punto x0, al igual que la tolerancia y la ecuación lo que permite que sea un poco mas dinamica la Iteracción. Se da un conjunto de intervalos y el resultado con la aproximación más adecuada</p>
+                        <a href="{{ url_for('mnewtoon') }}">Ir a probarlo &rarr;</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!-- /.container-fluid -->
+
+{% endblock %}

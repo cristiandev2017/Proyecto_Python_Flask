@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{% block title %} Métodos Númericos {% endblock %} | PIF</title>
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center"  href="{{ url_for('index') }}">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-square-root-alt"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Metodos Numericos</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('index') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>PIF</span></a>
+            </li>
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Metodos
+            </div>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('mbiseccion') }}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Método Bisección</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('mnewtoon') }}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Método Newton </span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar  Aca iba el navbar-->
+                <br>
+                <div class="container-fluid">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+
+            </div>
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; 2021</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/demo/chart-pie-demo.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $("#calcularbiseccion").click(function(){
+                var int1 = $("#int1").val();
+                var int2 = $("#int2").val();
+                var tole = $("#tole").val();
+                //var ecuac = $("#ecuac").val();
+                $.ajax({
+                    type : 'POST',
+                    url : "{{url_for('majaxbiseccion')}}",
+                    data : {
+                        'int1':int1,
+                        'int2':int2,
+                        'tole':tole,
+                        //'ecuac':ecuac
+                    }
+                ,success: function (data) {
+                    $('#aproximacion').append("<label>"+data.resultado[1]+"</label>"); 
+                    data.resultado[0].forEach((dato) => {
+				        $('#intervalo').append("<label>"+dato+"</label><br>"); 
+			        });
+                }
+                });
+                event.preventDefault();
+            });
+
+            $("#calcularnewtoon").click(function(){
+                var x0 = $("#x0").val();
+                var tol = $("#tol").val();
+                var cant = $("#cant").val();
+                var ecuac = $("#ecuac").val();
+                $.ajax({
+                    type : 'POST',
+                    url : "{{url_for('majaxnewtoon')}}",
+                    data : {
+                        'x0':x0,
+                        'tol':tol,
+                        'cant':cant,
+                        'ecuac':ecuac
+                    }
+                ,success: function (data) {
+                    $('#aproximacion').append("<label>"+data.resultado[1]+"</label>"); 
+                    data.resultado[0].forEach((dato) => {
+				        $('#intervalo').append("<label>"+dato+"</label><br>"); 
+			        });
+
+                }
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
+
+</body>
+
+</html>
